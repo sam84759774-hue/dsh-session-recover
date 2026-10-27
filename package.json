@@ -1,0 +1,27 @@
+﻿{
+    "name":  "dsh-session-recover",
+    "version":  "0.1.0",
+    "description":  "Recover DeepSeek Harness sessions: detect flat artifacts that break the workspace service, re-attach orphaned sessions, verify multi-frame zstd logs.",
+    "type":  "module",
+    "bin":  {
+                "dsh-recover":  "bin/dsh-recover.mjs"
+            },
+    "files":  [
+                  "bin/dsh-recover.mjs",
+                  "README.md",
+                  "README.en.md",
+                  "LICENSE"
+              ],
+    "engines":  {
+                    "node":  "\u003e=22"
+                },
+    "license":  "MIT",
+    "keywords":  [
+                     "dsh",
+                     "deepseek-harness",
+                     "deepseek",
+                     "session-recovery",
+                     "diagnostics",
+                     "zstd"
+                 ]
+}

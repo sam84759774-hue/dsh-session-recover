@@ -1,0 +1,35 @@
+name: smoke
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  cli:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax
+        run: node --check bin/dsh-recover.mjs
+      - name: Help
+        run: node bin/dsh-recover.mjs --help
+      - name: Version
+        run: node bin/dsh-recover.mjs --version
+      - name: Diagnose an empty home (expects exit 1, must not crash)
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/empty-home"
+          set +e
+          node bin/dsh-recover.mjs --home "$RUNNER_TEMP/empty-home" --json > out.json
+          code=$?
+          set -e
+          test "$code" = "1"
+          node -e "JSON.parse(require('fs').readFileSync('out.json','utf8')); console.log('json ok')"
